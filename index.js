@@ -22,7 +22,6 @@ const auth = require("./routes/auth");
 
 // Middlewares
 app.use(express.json());
-
 app.use("/api/auth", auth);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

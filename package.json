@@ -9,6 +9,7 @@
   "author": "Younes Rahmouni",
   "license": "UNLICENSED",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
