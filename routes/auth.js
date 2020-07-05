@@ -3,6 +3,7 @@ const User = require("../models/User");
 const { validateRegisterUser, validateLoginUser } = require("../validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const protected = require("./verifyToken");
 
 // Sign up logic
 router.post("/signup", async (req, res) => {
@@ -53,6 +54,11 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
+});
+
+router.get("/", protected, async (req, res) => {
+  const fetchedUser = await User.findOne({ _id: req.user });
+  res.json(fetchedUser);
 });
 
 module.exports = router;
