@@ -21,3 +21,4 @@ const validateLoginUser = (user) => {
 };
 
 module.exports.validateRegisterUser = validateRegisterUser;
+module.exports.validateLoginUser = validateLoginUser;

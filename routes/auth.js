@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { validateRegisterUser } = require("../validation");
+const { validateRegisterUser, validateLoginUser } = require("../validation");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+// Sign up logic
 router.post("/signup", async (req, res) => {
   const { error } = validateRegisterUser(req.body);
   if (error) return res.send(error.details[0].message);
@@ -25,7 +27,29 @@ router.post("/signup", async (req, res) => {
   try {
     // Save the new user in db
     const savedUser = await newUser.save();
-    res.send(savedUser);
+    res.send(savedUser._id);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Login logic
+router.post("/login", async (req, res) => {
+  const { error } = validateLoginUser(req.body);
+  if (error) return res.send(error.details[0].message);
+
+  // Check if the email exists
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) return res.status(400).send("Email not found!");
+
+  // Check if the password is valid
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send("Password invalid!");
+
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+
+  try {
+    res.header("auth-token", token).send(token);
   } catch (error) {
     res.status(400).send(error);
   }
