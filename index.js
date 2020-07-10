@@ -11,7 +11,7 @@ dotenv.config();
 app.use(cors());
 
 // Connect to database
-mongoose
+const db = mongoose
   .connect(process.env.DB_CONNECT_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -22,9 +22,13 @@ mongoose
 
 // import routes.
 const auth = require("./routes/auth");
+const data = require("./routes/data");
 
 // Middlewares
 app.use(express.json());
 app.use("/api/auth", auth);
+app.use("/api/", data);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+module.exports.db = db;
