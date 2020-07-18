@@ -4,12 +4,16 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const port = 3001;
 const cors = require('cors');
+const path = require('path');
 
 // Initialize ENV
 dotenv.config();
 
 // Enable CORS
 app.use(cors());
+
+// Expose videos & covers
+app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to database
 const db = mongoose
