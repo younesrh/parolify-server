@@ -23,6 +23,7 @@ router.post("/signup", async (req, res) => {
     email: req.body.email,
     name: req.body.name,
     password: hashedPassword,
+    isAdmin: false,
   });
 
   try {

@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
     max: 1000,
   },
 
+  isAdmin: {
+    type: Boolean,
+    required: false,
+  },
+
   created_at: {
     type: Date,
     default: Date.now,
