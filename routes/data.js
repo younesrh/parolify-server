@@ -42,7 +42,7 @@ router.post("/songs/delete", protected, async (req, res) => {
   try {
     Song.findById(req.body.id, function (err, doc) {
       if (err) {
-        res.status(400).send("Could not delte");
+        res.status(400).send("Could not delete");
       }
 
       doc.remove(); //Removes the document
