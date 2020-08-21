@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const songSchema = new mongoose.Schema({
   artist_name: {
@@ -38,6 +38,11 @@ const songSchema = new mongoose.Schema({
     min: 10,
     max: 20000,
   },
+  views: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
-module.exports = mongoose.model("Song", songSchema);
+module.exports = mongoose.model('Song', songSchema);
