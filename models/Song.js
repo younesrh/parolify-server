@@ -38,7 +38,7 @@ const songSchema = new mongoose.Schema({
     min: 10,
     max: 20000,
   },
-  view: {
+  views: {
     type: Number,
     required: true,
     default: 0,
