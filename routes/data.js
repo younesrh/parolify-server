@@ -32,22 +32,21 @@ router.get('/songs', protected, (req, res) => {
 router.post('/songs/cover/upload', upload.single('coverFile'), (req, res) => {
   res.send(req.file);
 });
-
 router.post('/songs/video/upload', upload.single('videoFile'), (req, res) => {
   res.send(req.file);
 });
 
 // Update song views
-router.post('/song/update-views', protected, async (req, res) => {
+router.post('/songs/update-views', protected, async (req, res) => {
   try {
-    Song.findById(req.body.id, function (err, doc) {
+    Song.findByIdAndUpdate(req.body.id, { $inc: { views: 1 } }, function (
+      err,
+      doc
+    ) {
       if (err) {
-        console.error(err);
-        res.status(400).send('Database error!');
+        res.status(400).send('DB Error!');
       }
-
-      doc.updateOne({ $inc: { views: 1 } });
-      res.status(200).send('Views updated!');
+      res.status(200).send(doc);
     });
   } catch (error) {
     console.error(error);
