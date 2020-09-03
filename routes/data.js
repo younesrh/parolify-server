@@ -1,22 +1,27 @@
-const router = require('express').Router();
-const protected = require('./verifyToken');
-const Song = require('../models/Song');
-const { db } = require('../models/Song');
-const { v4: uuidv4 } = require('uuid');
-var multer = require('multer');
-const path = require('path');
+const router = require("express").Router();
+const protected = require("./verifyToken");
+const Song = require("../models/Song");
+const { db } = require("../models/Song");
+const { v4: uuidv4 } = require("uuid");
+var multer = require("multer");
+const path = require("path");
 
 var storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: "uploads/",
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + uuidv4() + path.extname(file.originalname));
+    cb(null, file.fieldname + "-" + uuidv4() + path.extname(file.originalname));
   },
 });
 
 var upload = multer({ storage: storage });
 
+// test
+router.get("/", (req, res) => {
+  res.send("Success");
+});
+
 // Fetch all songs.
-router.get('/songs', protected, (req, res) => {
+router.get("/songs", protected, (req, res) => {
   Song.find({}, function (err, result) {
     if (err) {
       res.send(err);
@@ -29,49 +34,49 @@ router.get('/songs', protected, (req, res) => {
 });
 
 // Upload cover test
-router.post('/songs/cover/upload', upload.single('coverFile'), (req, res) => {
+router.post("/songs/cover/upload", upload.single("coverFile"), (req, res) => {
   res.send(req.file);
 });
-router.post('/songs/video/upload', upload.single('videoFile'), (req, res) => {
+router.post("/songs/video/upload", upload.single("videoFile"), (req, res) => {
   res.send(req.file);
 });
 
 // Update song views
-router.post('/songs/update-views', protected, async (req, res) => {
+router.post("/songs/update-views", protected, async (req, res) => {
   try {
     Song.findByIdAndUpdate(req.body.id, { $inc: { views: 1 } }, function (
       err,
       doc
     ) {
       if (err) {
-        res.status(400).send('DB Error!');
+        res.status(400).send("DB Error!");
       }
       res.status(200).send(doc);
     });
   } catch (error) {
     console.error(error);
-    res.status(400).send('Could not update views!');
+    res.status(400).send("Could not update views!");
   }
 });
 
 // Delete song
-router.post('/songs/delete', protected, async (req, res) => {
+router.post("/songs/delete", protected, async (req, res) => {
   try {
     Song.findById(req.body.id, function (err, doc) {
       if (err) {
-        res.status(400).send('Could not delete');
+        res.status(400).send("Could not delete");
       }
 
       doc.remove(); //Removes the document
-      res.status(200).send('Song deleted!');
+      res.status(200).send("Song deleted!");
     });
   } catch (error) {
-    res.status(400).send('Server error');
+    res.status(400).send("Server error");
   }
 });
 
 // Add song
-router.post('/songs/add', protected, async (req, res) => {
+router.post("/songs/add", protected, async (req, res) => {
   // Upload song cover
 
   // Initialize song
