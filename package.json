@@ -4,7 +4,8 @@
   "description": "A backend for Parolify.",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "deploy": "node index.js"
   },
   "author": "Younes Rahmouni",
   "license": "UNLICENSED",
