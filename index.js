@@ -36,6 +36,8 @@ app.use(express.json());
 app.use("/api/auth", auth);
 app.use("/api/", data);
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(process.env.PORT || port, () =>
+  console.log(`Server running on port ${port}`)
+);
 
 module.exports.db = db;
