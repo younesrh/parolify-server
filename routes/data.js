@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 });
 
 // Fetch all songs.
-router.get("/songs", protected, (req, res) => {
+router.get("/songs", (req, res) => {
   Song.find({}, function (err, result) {
     if (err) {
       res.send(err);
@@ -42,7 +42,7 @@ router.post("/songs/video/upload", upload.single("videoFile"), (req, res) => {
 });
 
 // Update song views
-router.post("/songs/update-views", protected, async (req, res) => {
+router.post("/songs/update-views", async (req, res) => {
   try {
     Song.findByIdAndUpdate(req.body.id, { $inc: { views: 1 } }, function (
       err,
